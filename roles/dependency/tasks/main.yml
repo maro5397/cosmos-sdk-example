@@ -1,6 +1,10 @@
+---
+# tasks file for dependency
+
 - name: Install basic utilities
-  apt:
+  ansible.builtin.apt:
     name:
       - git
       - jq
     state: present
+    update_cache: yes
