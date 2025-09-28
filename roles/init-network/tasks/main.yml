@@ -1,0 +1,13 @@
+---
+# tasks file for init-network
+
+- name: "delete home directory"
+  file:
+    path: "{{ simd_home }}"
+    state: absent
+  become: yes
+
+- name: "simd init"
+  command: >
+    {{ simd }} init {{ moniker }} --chain-id {{ chain_id }} --home {{ simd_home }}
+  become: yes

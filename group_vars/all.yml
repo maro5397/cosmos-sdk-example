@@ -1,0 +1,6 @@
+moniker: "{{ inventory_hostname }}"
+
+simd: "/usr/local/bin/simd"
+simd_home: ~/.simapp
+
+chain_id: "my-test-chain"

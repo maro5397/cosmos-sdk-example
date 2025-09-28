@@ -1,6 +1,12 @@
-- name: dependency install
+- name: install dependency
   hosts: validator
   become: yes
   roles:
     - dependency
 
+- name: execute local testnet
+  hosts: validator
+  become: yes
+  roles:
+    - make-key
+    - init-network
