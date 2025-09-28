@@ -8,3 +8,11 @@
       - jq
     state: present
     update_cache: yes
+  become: yes
+
+- name: Copy the simd binary to /usr/local/bin
+  ansible.builtin.copy:
+    src: /usr/local/bin/simd
+    dest: /usr/local/bin/simd
+    mode: '0755'
+  become: yes
