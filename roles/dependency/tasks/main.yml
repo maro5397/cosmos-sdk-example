@@ -1,0 +1,6 @@
+- name: Install basic utilities
+  apt:
+    name:
+      - git
+      - jq
+    state: present

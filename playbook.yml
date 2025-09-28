@@ -1,0 +1,6 @@
+- name: dependency install
+  hosts: validator
+  become: yes
+  roles:
+    - dependency
+
