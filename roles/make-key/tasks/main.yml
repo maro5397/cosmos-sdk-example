@@ -1,3 +1,6 @@
+---
+# tasks file for make-key
+
 - name: check validator key
   ansible.builtin.stat:
     path: "{{ simd_home }}/keyring-test/{{ key_name }}.info"
