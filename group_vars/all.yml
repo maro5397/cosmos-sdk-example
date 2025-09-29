@@ -1,4 +1,5 @@
 moniker: "{{ inventory_hostname }}"
+key_name: "{{ inventory_hostname }}"
 
 simd: "/usr/local/bin/simd"
 simd_home: ~/.simapp
