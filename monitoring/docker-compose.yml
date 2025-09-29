@@ -4,7 +4,7 @@ services:
     container_name: prometheus
     volumes:
       - ./config/prometheus.yml:/etc/prometheus/prometheus.yml
-      - ./prometheus-data:/prometheus
+      - prometheus-data:/prometheus
     ports:
       - "9090:9090"
     networks:
@@ -16,7 +16,7 @@ services:
     ports:
       - "3000:3000"
     volumes:
-      - ./grafana-storage:/var/lib/grafana
+      - grafana-storage:/var/lib/grafana
     environment:
       - GF_SECURITY_ADMIN_USER=${GRAFANA_ADMIN_USER}
       - GF_SECURITY_ADMIN_PASSWORD=${GRAFANA_ADMIN_PASSWORD}
