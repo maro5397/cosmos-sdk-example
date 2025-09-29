@@ -43,7 +43,7 @@
     line: 'timeout_commit = "200ms"'
 
 - name: activation of metric
-  lansible.builtin.lineinfile:
+  ansible.builtin.lineinfile:
     path: "{{ simd_home }}/config/config.toml"
     regexp: '^prometheus ='
     line: 'prometheus = true'
