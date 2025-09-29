@@ -29,7 +29,7 @@
   when: inventory_hostname == "santiago"
   ansible.builtin.fetch:
     src: ~/santiago.addr
-    dest: /tmp
+    dest: /tmp/
     flat: yes
 
 - name: santiago address file to seoul node

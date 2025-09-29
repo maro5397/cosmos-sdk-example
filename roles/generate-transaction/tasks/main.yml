@@ -22,7 +22,7 @@
   when: inventory_hostname == "santiago"
   ansible.builtin.fetch:
     src: ~/{{ simd_home }}/config/gentx/*.json
-    dest: /tmp
+    dest: /tmp/
     flat: yes
 
 - name: santiago transaction file to seoul node
@@ -41,7 +41,7 @@
   when: inventory_hostname == "seoul"
   ansible.builtin.fetch:
     src: ~/{{ simd_home }}/config/genesis.json
-    dest: /tmp
+    dest: /tmp/
     flat: yes
 
 - name: seoul genesis file to santiago node
