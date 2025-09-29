@@ -1,4 +1,2 @@
 .env
 gen
-grafana-storage
-prometheus-data
