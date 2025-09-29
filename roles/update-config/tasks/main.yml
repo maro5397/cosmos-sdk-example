@@ -50,12 +50,12 @@
     insertafter: '^\[instrumentation\]'
 
 - name: set laddr 0.0.0.0
-  replace:
+  ansible.builtin.replace:
     path: "{{ simd_home }}/config/config.toml"
     regexp: '^laddr = "tcp://[^:]+:(\d+)"'
     replace: 'laddr = "tcp://0.0.0.0:\1"'
 
 - name: deploy app setting file
-  template:
+  ansible.builtin.template:
     src: app.toml.j2
     dest: "{{ simd_home }}/config/app.toml"
