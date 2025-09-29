@@ -1,0 +1,13 @@
+[Unit]
+Description=Simd Cosmos-SDK Daemon
+After=network-online.target
+
+[Service]
+User={{ ansible_user }}
+ExecStart=/usr/local/bin/simd start --home /home/knitter1014/.simapp
+Restart=on-failure
+RestartSec=10
+LimitNOFILE=65535
+
+[Install]
+WantedBy=multi-user.target
