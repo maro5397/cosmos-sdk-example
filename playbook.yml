@@ -6,7 +6,6 @@
 
 - name: execute local testnet
   hosts: validator
-  become: yes
   roles:
     - make-key
     - init-network
