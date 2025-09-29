@@ -17,34 +17,3 @@
     cmd: > 
       simd keys show {{ key_name }} --address --keyring-backend test --home {{ simd_home }}
   register: validator_address
-
-- name: save santiago addr file
-  when: inventory_hostname == "santiago"
-  ansible.builtin.copy:
-    content: "{{ validator_address.stdout }}"
-    dest: "~/santiago.addr"
-    mode: "0644"
-
-- name: fetch santiago address file
-  when: inventory_hostname == "santiago"
-  ansible.builtin.fetch:
-    src: ~/santiago.addr
-    dest: /tmp/
-    flat: yes
-
-- name: santiago address file to seoul node
-  when: inventory_hostname == "seoul"
-  ansible.builtin.copy:
-    src: /tmp/santiago.addr
-    dest: ~/santiago.addr
-
-- name: enroll santiago key in seoul node
-  when: inventory_hostname == "seoul"
-  ansible.builtin.shell: cat ~/santiago.addr
-  register: santiago_address
-
-- name: enroll seoul, santiago address for seoul context
-  when: inventory_hostname == "seoul"
-  ansible.builtin.set_fact:
-    seoul_address: "{{ validator_address.stdout }}"
-    santiago_address: "{{ santiago_address.stdout }}"

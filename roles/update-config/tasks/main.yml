@@ -14,7 +14,7 @@
     regexp: '^persistent_peers ='
     line: >-
       persistent_peers = "{{ (inventory_hostname == 'seoul') 
-        | ternary(hostvars['tokyo'].node_id_output.stdout, hostvars['seoul'].node_id_output.stdout) 
+        | ternary(hostvars['santiago'].node_id_output.stdout, hostvars['seoul'].node_id_output.stdout) 
       }}@{{ peer_ip }}:26656"
 
 - name: set block proposal timeout (timeout_propose)

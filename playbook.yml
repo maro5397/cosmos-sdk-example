@@ -7,7 +7,7 @@
 - name: execute local testnet
   hosts: validator
   roles:
-    - make-key
     - init-network
+    - make-key
     - generate-transaction
     - update-config

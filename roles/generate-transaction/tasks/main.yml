@@ -2,16 +2,9 @@
 # tasks file for generate-transaction
 
 - name: "add faucet to seoul address"
-  when: inventory_hostname == "seoul"
   ansible.builtin.command: 
     cmd: > 
-      {{ simd }} genesis add-genesis-account {{ seoul_address }} {{ init_amount }} --home {{ simd_home }}
-
-- name: "add faucet to santiago address"
-  when: inventory_hostname == "seoul"
-  ansible.builtin.command: 
-    cmd: > 
-      {{ simd }} genesis add-genesis-account {{ santiago_address }} {{ init_amount }} --home {{ simd_home }}
+      {{ simd }} genesis add-genesis-account {{ validator_address.stdout }} {{ init_amount }} --home {{ simd_home }}
 
 - name: "add stake transaction"
   ansible.builtin.command: 
