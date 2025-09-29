@@ -1,10 +1,35 @@
 ---
 # tasks file for generate-transaction
 
-- name: "add faucet to seoul address"
+- name: "add faucet to seoul node address"
+  when: inventory_hostname == "seoul"
   ansible.builtin.command: 
     cmd: > 
       {{ simd }} genesis add-genesis-account {{ validator_address.stdout }} {{ init_amount }} --home {{ simd_home }}
+
+- name: "add faucet to santiago node address"
+  when: inventory_hostname == "seoul"
+  ansible.builtin.command: 
+    cmd: > 
+      {{ simd }} genesis add-genesis-account {{ hostvars['santiago'].validator_address.stdout }} {{ init_amount }} --home {{ simd_home }}
+
+- name: get seoul genesis file
+  when: inventory_hostname == "seoul"
+  ansible.builtin.shell:
+    cmd: >
+      scp -i {{ ansible_ssh_private_key_file }} 
+      {{ ansible_user }}@{{ ansible_host }}:'{{ simd_home }}/config/genesis.json' 
+      ~/cosmos-sdk-example/gen/
+  delegate_to: localhost
+
+- name: genesis file to santiago node
+  when: inventory_hostname == "santiago"
+  ansible.builtin.shell:
+    cmd: >
+      scp -i {{ ansible_ssh_private_key_file }} 
+      ~/cosmos-sdk-example/gen/genesis.json
+      {{ ansible_user }}@{{ ansible_host }}:{{ simd_home }}/config/genesis.json
+  delegate_to: localhost
 
 - name: "add stake transaction"
   ansible.builtin.command: 
@@ -13,32 +38,43 @@
 
 - name: get santiago transaction file
   when: inventory_hostname == "santiago"
-  ansible.builtin.fetch:
-    src: ~/{{ simd_home }}/config/gentx/*.json
-    dest: /tmp/
-    flat: yes
+  ansible.builtin.shell:
+    cmd: >
+      scp -i {{ ansible_ssh_private_key_file }} 
+      {{ ansible_user }}@{{ ansible_host }}:'{{ simd_home }}/config/gentx/*.json' 
+      ~/cosmos-sdk-example/gen/
+  delegate_to: localhost
 
 - name: santiago transaction file to seoul node
   when: inventory_hostname == "seoul"
-  ansible.builtin.copy:
-    src: /tmp/config/gentx/*.json
-    dest: ~/{{ simd_home }}/config/gentx/*.json
+  ansible.builtin.shell:
+    cmd: >
+      scp -i {{ ansible_ssh_private_key_file }} 
+      ~/cosmos-sdk-example/gen/gentx-*.json
+      {{ ansible_user }}@{{ ansible_host }}:{{ simd_home }}/config/gentx/
+  delegate_to: localhost
 
 - name: merge transactions
   when: inventory_hostname == "seoul"
-  command: >
-    {{ simd }} genesis collect-gentxs --home {{ simd_home }}
+  ansible.builtin.command: 
+    cmd: >
+      {{ simd }} genesis collect-gentxs --home {{ simd_home }}
   run_once: true
 
-- name: get genesis file
+- name: get seoul genesis file
   when: inventory_hostname == "seoul"
-  ansible.builtin.fetch:
-    src: ~/{{ simd_home }}/config/genesis.json
-    dest: /tmp/
-    flat: yes
+  ansible.builtin.shell:
+    cmd: >
+      scp -i {{ ansible_ssh_private_key_file }} 
+      {{ ansible_user }}@{{ ansible_host }}:'{{ simd_home }}/config/genesis.json' 
+      ~/cosmos-sdk-example/gen/
+  delegate_to: localhost
 
-- name: seoul genesis file to santiago node
-  when: inventory_hostname == "seoul"
-  ansible.builtin.copy:
-    src: /tmp/config/genesis.json
-    dest: ~/{{ simd_home }}/config/genesis.json
+- name: genesis file to santiago node
+  when: inventory_hostname == "santiago"
+  ansible.builtin.shell:
+    cmd: >
+      scp -i {{ ansible_ssh_private_key_file }} 
+      ~/cosmos-sdk-example/gen/genesis.json
+      {{ ansible_user }}@{{ ansible_host }}:{{ simd_home }}/config/genesis.json
+  delegate_to: localhost
