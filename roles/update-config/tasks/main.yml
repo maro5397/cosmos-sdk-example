@@ -1,0 +1,61 @@
+---
+# tasks file for update-config
+
+- name: get node id
+  ansible.builtin.command:
+    cmd: >
+      {{ simd }} tendermint show-node-id --home {{ simd_home }}
+  register: node_id_output
+  changed_when: false
+
+- name: set persistent_peers
+  ansible.builtin.lineinfile:
+    path: "{{ simd_home }}/config/config.toml"
+    regexp: '^persistent_peers ='
+    line: >-
+      persistent_peers = "{{ (inventory_hostname == 'seoul') 
+        | ternary(hostvars['tokyo'].node_id_output.stdout, hostvars['seoul'].node_id_output.stdout) 
+      }}@{{ peer_ip }}:26656"
+  become: yes
+
+- name: set block proposal timeout (timeout_propose)
+  ansible.builtin.lineinfile:
+    path: "{{ simd_home }}/config/config.toml"
+    regexp: '^timeout_propose ='
+    line: 'timeout_propose = "100ms"'
+
+- name: set prevote timeout (timeout_prevote)
+  ansible.builtin.lineinfile:
+    path: "{{ simd_home }}/config/config.toml"
+    regexp: '^timeout_prevote ='
+    line: 'timeout_prevote = "100ms"'
+
+- name: set precommit timeout (timeout_precommit)
+  ansible.builtin.lineinfile:
+    path: "{{ simd_home }}/config/config.toml"
+    regexp: '^timeout_precommit ='
+    line: 'timeout_precommit = "100ms"'
+
+- name: set commit timeout (timeout_commit)
+  ansible.builtin.lineinfile:
+    path: "{{ simd_home }}/config/config.toml"
+    regexp: '^timeout_commit ='
+    line: 'timeout_commit = "200ms"'
+
+- name: activation of metric
+  lansible.builtin.lineinfile:
+    path: "{{ simd_home }}/config/config.toml"
+    regexp: '^prometheus ='
+    line: 'prometheus = true'
+    insertafter: '^\[instrumentation\]'
+
+- name: set laddr 0.0.0.0
+  replace:
+    path: "{{ simd_home }}/config/config.toml"
+    regexp: '^laddr = "tcp://[^:]+:(\d+)"'
+    replace: 'laddr = "tcp://0.0.0.0:\1"'
+
+- name: deploy app setting file
+  template:
+    src: app.toml.j2
+    dest: "{{ simd_home }}/config/app.toml"

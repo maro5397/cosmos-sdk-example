@@ -11,3 +11,4 @@
     - make-key
     - init-network
     - generate-transaction
+    - update-config
