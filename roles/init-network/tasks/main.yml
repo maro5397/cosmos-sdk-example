@@ -6,6 +6,12 @@
     path: "{{ simd_home }}"
     state: absent
 
+- name: delete genesis related files in gen directory
+  ansible.builtin.shell:
+    cmd: "rm -rf ~/cosmos-sdk-example/gen/*"
+  delegate_to: localhost
+  run_once: true
+
 - name: simd init
   ansible.builtin.command: 
     cmd: >
