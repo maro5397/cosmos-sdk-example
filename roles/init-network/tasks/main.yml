@@ -5,10 +5,8 @@
   ansible.builtin.file:
     path: "{{ simd_home }}"
     state: absent
-  become: yes
 
 - name: simd init
   ansible.builtin.command: 
     cmd: >
       {{ simd }} init {{ moniker }} --chain-id {{ chain_id }} --home {{ simd_home }}
-  become: yes

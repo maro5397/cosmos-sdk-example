@@ -16,7 +16,6 @@
       persistent_peers = "{{ (inventory_hostname == 'seoul') 
         | ternary(hostvars['tokyo'].node_id_output.stdout, hostvars['seoul'].node_id_output.stdout) 
       }}@{{ peer_ip }}:26656"
-  become: yes
 
 - name: set block proposal timeout (timeout_propose)
   ansible.builtin.lineinfile:
