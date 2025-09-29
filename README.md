@@ -23,5 +23,6 @@ $ cp ./build/simd /usr/local/bin
 
 ## how to start
 ```shell
+$ mkdir gen
 $ ansible-playbook -i hosts.ini playbook.yml
 ```
