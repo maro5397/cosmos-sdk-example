@@ -61,7 +61,7 @@
       {{ simd }} genesis collect-gentxs --home {{ simd_home }}
   run_once: true
 
-- name: get seoul genesis file
+- name: get seoul final genesis file
   when: inventory_hostname == "seoul"
   ansible.builtin.shell:
     cmd: >
@@ -70,7 +70,7 @@
       ~/cosmos-sdk-example/gen/
   delegate_to: localhost
 
-- name: genesis file to santiago node
+- name: final genesis file to santiago node
   when: inventory_hostname == "santiago"
   ansible.builtin.shell:
     cmd: >
