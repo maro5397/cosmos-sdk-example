@@ -5,3 +5,5 @@ simd: "/usr/local/bin/simd"
 simd_home: ~/.simapp
 
 chain_id: "my-test-chain"
+init_amount: "100000000stake"
+stake_amount: "50000000stake"

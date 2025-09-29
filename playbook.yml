@@ -10,3 +10,4 @@
   roles:
     - make-key
     - init-network
+    - generate-transaction
