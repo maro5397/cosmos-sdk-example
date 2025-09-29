@@ -28,4 +28,4 @@ volumes:
   prometheus-data:
 
 networks:
-  scoinone-network:
+  test-network:
