@@ -22,9 +22,24 @@ scrape_configs:
   - job_name: 'seoul'
     metrics_path: /metrics
     static_configs:
-      - targets: ['34.64.164.122:26660']
+      - targets: ['54.180.133.180:26660']
 
-  - job_name: 'santiago'
+  - job_name: 'varginia'
     metrics_path: /metrics
     static_configs:
-      - targets: ['34.176.166.186:26660']
+      - targets: ['100.26.28.173:26660']
+
+  - job_name: 'canada'
+    metrics_path: /metrics
+    static_configs:
+      - targets: ['15.223.66.200:26660']
+
+  - job_name: 'london'
+    metrics_path: /metrics
+    static_configs:
+      - targets: ['18.170.86.138:26660']
+
+  - job_name: 'sao-paulo'
+    metrics_path: /metrics
+    static_configs:
+      - targets: ['15.228.195.162:26660']
