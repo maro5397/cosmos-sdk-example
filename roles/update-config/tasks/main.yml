@@ -8,13 +8,22 @@
   register: node_id_output
   changed_when: false
 
-- name: "Set persistent_peers for a full mesh network"
-  vars:
-    peer_list: "{{ [ hostvars[host].node_id_output.stdout ~ '@' ~ hostvars[host].ansible_host ~ ':26656' for host in ansible_play_hosts if host != inventory_hostname ] | join(',') }}"
+- name: make list of peers
+  ansible.builtin.set_fact:
+    peer_list: |
+      {% set peers = [] %}
+      {% for host in ansible_play_hosts %}
+      {% if host != inventory_hostname %}
+      {% set _ = peers.append(hostvars[host].node_id_output.stdout ~ '@' ~ hostvars[host].ansible_host ~ ':26656') %}
+      {% endif %}
+      {% endfor %}
+      {{ peers }}
+
+- name: set persistent_peers for a full mesh network
   ansible.builtin.lineinfile:
     path: "{{ simd_home }}/config/config.toml"
     regexp: '^persistent_peers ='
-    line: 'persistent_peers = "{{ peer_list }}"'
+    line: 'persistent_peers = "{{ peer_list | join(",") }}"'
 
 - name: set block proposal timeout (timeout_propose)
   ansible.builtin.lineinfile:
