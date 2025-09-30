@@ -1,17 +1,11 @@
 ---
 # tasks file for generate-transaction
-
-- name: "add faucet to seoul node address"
+- name: "add faucet to all of node address"
   when: inventory_hostname == "seoul"
-  ansible.builtin.command: 
-    cmd: > 
-      {{ simd }} genesis add-genesis-account {{ validator_address.stdout }} {{ init_amount }} --home {{ simd_home }}
-
-- name: "add faucet to santiago node address"
-  when: inventory_hostname == "seoul"
-  ansible.builtin.command: 
-    cmd: > 
-      {{ simd }} genesis add-genesis-account {{ hostvars['santiago'].validator_address.stdout }} {{ init_amount }} --home {{ simd_home }}
+  ansible.builtin.command:
+    cmd: >
+      {{ simd }} genesis add-genesis-account {{ hostvars[item].validator_address.stdout }} {{ init_amount }} --home {{ simd_home }}
+  loop: "{{ ansible_play_hosts }}"
 
 - name: get seoul genesis file
   when: inventory_hostname == "seoul"
@@ -22,8 +16,7 @@
       ~/cosmos-sdk-example/gen/
   delegate_to: localhost
 
-- name: genesis file to santiago node
-  when: inventory_hostname == "santiago"
+- name: genesis file to all of node
   ansible.builtin.shell:
     cmd: >
       scp -i {{ ansible_ssh_private_key_file }} 
@@ -36,8 +29,8 @@
     cmd: > 
       {{ simd }} genesis gentx {{ key_name }} {{ stake_amount }} --chain-id {{ chain_id }} --keyring-backend test --home {{ simd_home }}
 
-- name: get santiago transaction file
-  when: inventory_hostname == "santiago"
+- name: get all of transaction file except seoul
+  when: inventory_hostname != "seoul"
   ansible.builtin.shell:
     cmd: >
       scp -i {{ ansible_ssh_private_key_file }} 
@@ -70,8 +63,7 @@
       ~/cosmos-sdk-example/gen/
   delegate_to: localhost
 
-- name: final genesis file to santiago node
-  when: inventory_hostname == "santiago"
+- name: final genesis file to all of node
   ansible.builtin.shell:
     cmd: >
       scp -i {{ ansible_ssh_private_key_file }} 

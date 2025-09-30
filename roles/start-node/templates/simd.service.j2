@@ -4,7 +4,7 @@ After=network-online.target
 
 [Service]
 User={{ ansible_user }}
-ExecStart=/usr/local/bin/simd start --home /home/knitter1014/.simapp
+ExecStart=/usr/local/bin/simd start --home /home/ubuntu/.simapp
 Restart=on-failure
 RestartSec=10
 LimitNOFILE=65535
