@@ -12,7 +12,7 @@
   vars:
     peer_list: "{{ [ hostvars[host].node_id_output.stdout ~ '@' ~ hostvars[host].ansible_host ~ ':26656' for host in ansible_play_hosts if host != inventory_hostname ] | join(',') }}"
   ansible.builtin.lineinfile:
-    path: "{{ simd_home }/config/config.toml"
+    path: "{{ simd_home }}/config/config.toml"
     regexp: '^persistent_peers ='
     line: 'persistent_peers = "{{ peer_list }}"'
 
