@@ -38,7 +38,7 @@
       ~/cosmos-sdk-example/gen/
   delegate_to: localhost
 
-- name: santiago transaction file to seoul node
+- name: all of transaction file to seoul node
   when: inventory_hostname == "seoul"
   ansible.builtin.shell:
     cmd: >
