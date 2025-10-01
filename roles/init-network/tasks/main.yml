@@ -1,14 +1,6 @@
 ---
 # tasks file for init-network
 
-- name: ensure simd service is stoped and enabled
-  ansible.builtin.systemd:
-    name: simd
-    state: stop
-    enabled: yes
-    daemon_reload: yes
-  become: yes
-
 - name: create systemd service file for simd
   ansible.builtin.template:
     src: simd.service.j2
@@ -16,6 +8,14 @@
     owner: root
     group: root
     mode: '0644'
+  become: yes
+
+- name: ensure simd service is stoped and enabled
+  ansible.builtin.systemd:
+    name: simd
+    state: stopped
+    enabled: yes
+    daemon_reload: yes
   become: yes
 
 - name: delete home directory
