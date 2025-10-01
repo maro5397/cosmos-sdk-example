@@ -4,7 +4,6 @@
 - name: Install basic utilities
   ansible.builtin.apt:
     name:
-      - git
       - jq
     state: present
     update_cache: yes
