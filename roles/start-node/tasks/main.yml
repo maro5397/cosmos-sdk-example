@@ -1,15 +1,6 @@
 ---
 # tasks file for start-node
 
-- name: create systemd service file for simd
-  ansible.builtin.template:
-    src: simd.service.j2
-    dest: /etc/systemd/system/simd.service
-    owner: root
-    group: root
-    mode: '0644'
-  become: yes
-
 - name: ensure simd service is started and enabled
   ansible.builtin.systemd:
     name: simd
