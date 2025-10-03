@@ -32,18 +32,9 @@ func checkSyncStatus(
 	height := status.SyncInfo.LatestBlockHeight
 	catchingUp := status.SyncInfo.CatchingUp
 	if catchingUp {
-		if lastHeight == height {
-			if lastChange.IsZero() {
-				lastChange = time.Now()
-			}
-			if time.Since(lastChange) >= config.StopDetectWindow {
-				message := fmt.Sprintf("[%s] 동기화 정체 감지 (height=%d, peers=0)", node.Name, height)
-				_ = notifier.Notify(ctx, message)
-				log.Println(message)
-			}
-		} else {
-			lastHeight, lastChange = height, time.Now()
-		}
+		message := fmt.Sprintf("[%s] 동기화 중 (height=%d)", node.Name, height)
+		_ = notifier.Notify(ctx, message)
+		log.Println(message)
 	} else {
 		lastHeight, lastChange = height, time.Now()
 	}
