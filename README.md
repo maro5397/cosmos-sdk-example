@@ -11,6 +11,14 @@ GCP에 Cosmos SDK Validator를 운용하기 위한 실험 환경 구축
 GRAFANA_ADMIN_USER = [userId]
 GRAFANA_ADMIN_PASSWORD = [password]
 ```
+아래 .env 설정을 alert 디렉토리 위치에 저장
+```ini
+REGION=
+REGION_RPC=
+REGION_VALIDATOR_ADDRESS
+WEBHOOK_URL
+```
+
 ### cosmos-sdk build
 cosmos-sdk를 빌드한 후 simd파일을 /usr/local/bin 위치로 이동 (^v0.53.4)
 ```shell
