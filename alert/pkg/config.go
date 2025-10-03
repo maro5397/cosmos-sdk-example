@@ -58,7 +58,7 @@ func Load() *Config {
 			{
 				Name:             getEnv("REGION", ""),
 				RPC:              getEnv("REGION_RPC", ""),
-				ValidatorAddress: getEnv("REGION_VALIDATOR_ADDRESS=", ""),
+				ValidatorAddress: getEnv("REGION_VALIDATOR_ADDRESS", ""),
 			},
 		},
 		WebhookURL:       getEnv("WEBHOOK_URL", ""),
