@@ -13,10 +13,10 @@ GRAFANA_ADMIN_PASSWORD = [password]
 ```
 아래 .env 설정을 alert 디렉토리 위치에 저장
 ```ini
-REGION=
-REGION_RPC=
-REGION_VALIDATOR_ADDRESS
-WEBHOOK_URL
+REGION =
+REGION_RPC =
+REGION_VALIDATOR_ADDRESS =
+WEBHOOK_URL =
 ```
 
 ### cosmos-sdk build
