@@ -29,28 +29,23 @@ func checkSyncStatus(
 		log.Printf("[%s] Status 에러: %v", node.Name, err)
 		return lastHeight, lastChange
 	}
-	h := status.SyncInfo.LatestBlockHeight
-	catching := status.SyncInfo.CatchingUp
-	if catching {
-		if lastHeight == h {
+	height := status.SyncInfo.LatestBlockHeight
+	catchingUp := status.SyncInfo.CatchingUp
+	if catchingUp {
+		if lastHeight == height {
 			if lastChange.IsZero() {
 				lastChange = time.Now()
 			}
 			if time.Since(lastChange) >= config.StopDetectWindow {
-				networkContext, cancel := context.WithTimeout(ctx, config.RPCTimeout)
-				defer cancel()
-				networkInformation, err := client.NetInfo(networkContext)
-				if err == nil && len(networkInformation.Peers) == 0 {
-					message := fmt.Sprintf("[%s] 동기화 정체 감지 (height=%d, peers=0)", node.Name, h)
-					_ = notifier.Notify(ctx, message)
-					log.Println(message)
-				}
+				message := fmt.Sprintf("[%s] 동기화 정체 감지 (height=%d, peers=0)", node.Name, height)
+				_ = notifier.Notify(ctx, message)
+				log.Println(message)
 			}
 		} else {
-			lastHeight, lastChange = h, time.Now()
+			lastHeight, lastChange = height, time.Now()
 		}
 	} else {
-		lastHeight, lastChange = h, time.Now()
+		lastHeight, lastChange = height, time.Now()
 	}
 	return lastHeight, lastChange
 }
